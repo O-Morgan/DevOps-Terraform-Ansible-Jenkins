@@ -1,6 +1,8 @@
 # DevOps-Terraform-Ansible-Jenkins
 
-Install and configure terraform
+add architectural image
+
+add steps to Install and configure terraform
 
 https://developer.hashicorp.com/terraform/install 
 
