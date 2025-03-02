@@ -1,0 +1,38 @@
+tasks:
+
+  - name: terraform
+    env:
+      TF_LOG: DEBUG
+    before: |
+      # Set default project root if not already defined
+      PROJECT_ROOT=${PROJECT_ROOT:-/workspace/DevOps-Terraform-Ansible-Jenkins}
+      
+      cd $PROJECT_ROOT  
+
+      # Install Terraform CLI if not already installed
+      source ./bin/install_terraform_cli
+
+      # Generate Terraform credentials (if the script exists)
+      if [ -f ./bin/generate_tfrc_credentials ]; then
+        source ./bin/generate_tfrc_credentials
+      fi
+
+      # Set Terraform alias (if the script exists)
+      if [ -f ./bin/set_tf_alias ]; then
+        source ./bin/set_tf_alias
+      fi
+
+      # Copy example terraform.tfvars if it doesn't exist
+      if [ ! -f $PROJECT_ROOT/terraform.tfvars ]; then
+        cp $PROJECT_ROOT/terraform.tfvars.example $PROJECT_ROOT/terraform.tfvars
+      fi
+
+      # Build provider (if the script exists)
+      if [ -f ./bin/build_provider ]; then
+        source ./bin/build_provider
+      fi
+
+vscode:
+  extensions:
+    - amazonwebservices.aws-toolkit-vscode
+    - hashicorp.terraform

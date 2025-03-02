@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Update system and install necessary dependencies
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+
+# Download and add HashiCorp GPG key
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+# Add HashiCorp’s repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+# Update package lists and install Terraform
+sudo apt update && sudo apt install terraform -y
+
+# Navigate to the project directory (optional)
+cd /workspace/DevOps-Terraform-Ansible-Jenkins || exit
+
+# Verify Terraform installation
+terraform --version
