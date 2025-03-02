@@ -1,12 +1,11 @@
 tasks:
-
   - name: terraform
     env:
       TF_LOG: DEBUG
     before: |
       # Set default project root if not already defined
       PROJECT_ROOT=${PROJECT_ROOT:-/workspace/DevOps-Terraform-Ansible-Jenkins}
-      
+
       cd $PROJECT_ROOT  
 
       # Install Terraform CLI if not already installed
@@ -30,6 +29,21 @@ tasks:
       # Build provider (if the script exists)
       if [ -f ./bin/build_provider ]; then
         source ./bin/build_provider
+      fi
+
+      # Initialize Terraform
+      echo "Running terraform init..."
+      terraform init
+
+  - name: install-aws-cli
+    before: |
+      if ! command -v aws &> /dev/null; then
+        echo "AWS CLI not found. Installing..."
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        rm -rf awscliv2.zip aws
+        echo "AWS CLI installed!"
       fi
 
 vscode:
