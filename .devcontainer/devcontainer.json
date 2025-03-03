@@ -1,0 +1,21 @@
+{
+  "name": "My Codespace",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "aws-cli": "latest",
+    "terraform": "latest"
+  },
+  "postCreateCommand": "
+    chmod +x ./bin/install_terraform_cli &&
+    ./bin/install_terraform_cli &&
+    terraform init
+  ",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "amazonwebservices.aws-toolkit-vscode",
+        "hashicorp.terraform"
+      ]
+    }
+  }
+}
